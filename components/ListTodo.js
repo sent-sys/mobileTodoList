@@ -11,7 +11,7 @@ const ListTodo = ({todo, deleteItem}) => {
           name="remove"
           size={20}
           color="firebrick"
-          onPress={() => deleteItem()}
+          onPress={() => deleteItem(todo.id)}
         />
       </View>
     </TouchableOpacity>
