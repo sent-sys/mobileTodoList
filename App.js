@@ -1,43 +1,56 @@
-
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  StyleSheet,
-  FlatList,
-} from 'react-native';
+import {View, StyleSheet, FlatList, Alert} from 'react-native';
 import Header from './components/Header';
 import ListTodo from './components/ListTodo';
-
 
 const App = () => {
   const [todos, setTodos] = useState([]);
 
-
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/todos")
-    .then(response => response.json())
-    .then(data => setTodos(data))
-  }, [])
+    setTodos([]);
+    const abortController = new AbortController();
+    const loadTodos = async () => {
+      try {
+        const response = await fetch(
+          'https://jsonplaceholder.typicode.com/todos',
+          {signal: abortController.signal},
+        );
+        const data = await response.json();
+        setTodos(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-  
+    loadTodos();
+    return () => abortController.abort();
+  }, []);
 
-  return(
+  const mockDelete = () => {
+    Alert.alert('Pretend to delete this?', 'Click OK to do nothing', [
+      {
+        text: 'OK',
+      },
+    ]);
+  };
+
+  return (
     <View style={styles.container}>
-      <Header title="Todo List"/>
-    {todos.length > 0 && <FlatList 
-    data={todos}
-    renderItem={({todo}) => <ListTodo todo={todo} />}
-    />}
+      <Header title="Todo List" />
+      <FlatList
+        data={todos}
+        renderItem={({item}) => (
+          <ListTodo todo={item} deleteItem={mockDelete} />
+        )}
+      />
     </View>
-  )
-}
-
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40,
-  }
-})
+  },
+});
 
 export default App;
