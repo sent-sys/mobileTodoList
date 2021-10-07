@@ -1,34 +1,29 @@
-
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet
-} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 const Header = ({title}) => {
-  return(
+  return (
     <View style={styles.header}>
       <Text style={styles.text}>{title}</Text>
     </View>
-  )
-}
+  );
+};
 
 Header.defaultProps = {
-    title: "Todo List"
-}
+  title: 'Todo List',
+};
 
 const styles = StyleSheet.create({
-    header: {
-        height:100,
-        paddingTop:40,
-        backgroundColor: 'darkslateblue'
-    },
-    text: {
-        color: '#fff',
-        fontSize: 23,
-        textAlign: "center",
-    }
-})
+  header: {
+    height: 60,
+    paddingTop: 15,
+    backgroundColor: 'darkslateblue',
+  },
+  text: {
+    color: '#fff',
+    fontSize: 23,
+    textAlign: 'center',
+  },
+});
 
 export default Header;
